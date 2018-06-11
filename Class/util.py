@@ -72,6 +72,7 @@ class SeleniumUtil:
             element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
             element.click()
         except:
+            print("[ util.py ] : error occured at clicking element from xpath")
             return
     
     def clickElementByLinkText(driver, word, waitingTime):
@@ -80,6 +81,7 @@ class SeleniumUtil:
             element = wait.until(EC.presence_of_element_located((By.LINK_TEXT, word)))
             element.click()
         except:
+            print("[ util.py ] : error occured at clicking element from link text")
             return
     
     def getElementByXpath(driver, xpath, waitingTime):
@@ -97,7 +99,4 @@ class SeleniumUtil:
         except:
             element = None
         return element
-    
-    def checkIfElementExistsByXpath(driver, xpath, waitingTime):
-        check = True
         

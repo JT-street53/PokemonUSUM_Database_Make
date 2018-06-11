@@ -39,11 +39,19 @@ class ScrapePGL():
         pglBean.name = ScrapePGL.scrapePglName(driver)
         pglBean.pglId = ScrapePGL.scrapePglId(driver)
         pglBean.type = ScrapePGL.scrapePglType(driver)
-        pglBean.move = None
-        pglBean.ability = None
-        pglBean.nature = None
-        pglBean.item = None
-        pglBean.pokemonWith = None
+        pglBean.move = ScrapePGL.scrapePglMove(driver)
+        pglBean.pokemonWith = ScrapePGL.scrapePglPokemonWith(driver)
+        # click to Ability Tab
+        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[2]/h5/span', 5)
+        pglBean.ability = ScrapePGL.scrapePglAbility(driver)
+        # click to Nature Tab
+        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[3]/h5/span', 5)
+        pglBean.nature = ScrapePGL.scrapePglNature(driver)
+        # click to Item Tab
+        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[4]/h5/span', 5)
+        pglBean.item = ScrapePGL.scrapePglItem(driver)
+        # click to Pokemon Victorious Tab
+        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[4]/h5/span', 5)
         pglBean.pokemonVictorious = None
         pglBean.moveVictorious = None
         pglBean.pokemonDefeated = None
@@ -70,5 +78,68 @@ class ScrapePGL():
             print("[ scrapePGL.py ] : error occured at line 65. more than 2 elements.")
             return
     
+    def scrapePglPokemonWith(driver):
+        answer = []
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-party"]/div[2]/ol/li/div/img', 5)
+        for i in range(len(elements)):
+            style = elements[i].get_attribute("style")
+            pglId = style.split("pokemon/44/")[-1].split(".png")[0]
+            pokemonWith = [i + 1, pglId]
+            answer.append(pokemonWith)
+        return answer
+    
     def scrapePglMove(driver):
-        return
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[1]/div/table/tbody/tr/td', 5)
+        answer = []
+        for i in range(len(elements)):
+            if i % 3 == 0:
+                moveList = [None, None, None]
+                moveList[0] = elements[i].text
+            elif i % 3 == 1:
+                moveList[1] = elements[i].text
+            elif i % 3 == 2:
+                moveList[2] = elements[i].text
+                answer.append(moveList)
+        return answer
+
+    def scrapePglAbility(driver):
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[2]/div/table/tbody/tr/td', 5)
+        answer = []
+        for i in range(len(elements)):
+            if i % 3 == 0:
+                moveList = [None, None, None]
+                moveList[0] = elements[i].text
+            elif i % 3 == 1:
+                moveList[1] = elements[i].text
+            elif i % 3 == 2:
+                moveList[2] = elements[i].text
+                answer.append(moveList)
+        return answer
+    
+    def scrapePglNature(driver):
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[3]/div/table/tbody/tr/td', 5)
+        answer = []
+        for i in range(len(elements)):
+            if i % 3 == 0:
+                moveList = [None, None, None]
+                moveList[0] = elements[i].text
+            elif i % 3 == 1:
+                moveList[1] = elements[i].text
+            elif i % 3 == 2:
+                moveList[2] = elements[i].text
+                answer.append(moveList)
+        return answer
+    
+    def scrapePglItem(driver):
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[4]/div/table/tbody/tr/td', 5)
+        answer = []
+        for i in range(len(elements)):
+            if i % 3 == 0:
+                moveList = [None, None, None]
+                moveList[0] = elements[i].text
+            elif i % 3 == 1:
+                moveList[1] = elements[i].text
+            elif i % 3 == 2:
+                moveList[2] = elements[i].text
+                answer.append(moveList)
+        return answer
