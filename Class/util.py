@@ -82,11 +82,22 @@ class SeleniumUtil:
         except:
             return
     
-    def getElementTextByXpath(driver, xpath, waitingTime):
+    def getElementByXpath(driver, xpath, waitingTime):
         wait = WebDriverWait(driver, waitingTime)
         try:
             element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-            elementText = element.text
         except:
-            elementText = None
-        return elementText
+            element = None
+        return element
+    
+    def getElementsByXpath(driver, xpath, waitingTime):
+        wait = WebDriverWait(driver, waitingTime)
+        try:
+            element = wait.until(EC.presence_of_all_elements_located((By.XPATH, xpath)))
+        except:
+            element = None
+        return element
+    
+    def checkIfElementExistsByXpath(driver, xpath, waitingTime):
+        check = True
+        

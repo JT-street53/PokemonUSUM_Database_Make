@@ -23,8 +23,10 @@ class WebPage:
     WIKI_TOP_DIRECTORY = "/Users/KitKatBar/Developer/Pokemon/images/WikiTop/"
     # ポケモン徹底攻略の小さいアイコンを保存するディレクトリ
     TETTEIKOURYAKU_ICON_DIRECTORY = "/Users/KitKatBar/Developer/Pokemon/images/YakkunMini/"
-    # Pokemon Global LinkのURL
+    # Pokemon Global Link(PGL)のURL
     PGL = "http://www.pokemon-gl.com"
+    # PGLのレーティングバトル画面URL
+    PGL_RATING_BATTLE = "https://3ds.pokemon-gl.com/battle/usum/"
 
 class Dao:
     # connection情報

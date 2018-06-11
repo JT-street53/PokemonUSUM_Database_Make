@@ -53,8 +53,10 @@ class PglBean:
     
     def __init__(self):
         self.updatedTime = None
+        self.name = None
         self.pglId = None
-        self.imagePath = None
+        #type ... [String, String]
+        self.type = None
         #move ... [[int(ranking), String(move name), float(percentage)], [ ... ]] no null
         self.move = None
         #ability ... [[int(ranking), String(ability name), float(percentage)], [ ... ]] no null
@@ -63,13 +65,13 @@ class PglBean:
         self.nature = None
         #item ... [[int(ranking), String(item name), float(percentage)], [ ... ]] no null
         self.item = None
-        #pokemon_with ... [[int(ranking), String(pokemon_with name)], [ ... ]] no null
+        #pokemon_with ... [[int(ranking), String(pokemon_with id)], [ ... ]] no null
         self.pokemonWith = None
-        #pokemon_victorious ... [[int(ranking), String(pokemon_victorious name)], [ ... ]] no null
+        #pokemon_victorious ... [[int(ranking), String(pokemon_victorious id)], [ ... ]] no null
         self.pokemonVictorious = None
         #move_victorious ... [[int(ranking), String(move_victorious name), float(percentage)], [ ... ]] no null
         self.moveVictorious = None
-        #pokemon_defeated ... [[int(ranking), String(pokemon_defeated name)], [ ... ]] no null
+        #pokemon_defeated ... [[int(ranking), String(pokemon_defeated id)], [ ... ]] no null
         self.pokemonDefeated = None
         #move_defeated ... [[int(ranking), String(move_defeated name), float(percentage)], [ ... ]] no null
         self.moveDefeated = None
