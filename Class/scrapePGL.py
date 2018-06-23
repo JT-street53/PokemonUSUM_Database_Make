@@ -23,15 +23,17 @@ class ScrapePGL():
         util.SeleniumUtil.clickElementByLinkText(driver, u"ずかん番号順", 5)
         util.SeleniumUtil.clickElementByXpath(driver, "(//img[contains(@src,'https://n-3ds-pgl-contents.pokemon-gl.com/share/images/spacer.png')])[51]", 5)
         
-    def checkIfDataExists(driver):
-        check = True
+    def checkIfDataExists(driver, xpath):
+        check = None
         try:
-            checkElement = util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]', 1)
+            checkElement = util.SeleniumUtil.getElementByXpath(driver, xpath, 5)
             if checkElement.text == "表示できるデータがありません":
                 check = False
+            else:
+                check = True
         except:
             print("error occured at Class.scrapePGL.checkIfDataExists: No element")
-        return
+        return check
     
     def scrapePglData(driver):
         pglBean = bean.PglBean()
@@ -51,19 +53,25 @@ class ScrapePGL():
         util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[4]/h5/span', 5)
         pglBean.item = ScrapePGL.scrapePglItem(driver)
         # click to Pokemon Victorious Tab
-        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="pokemon-detail-party"]/div[1]/div[4]/h5/span', 5)
-        pglBean.pokemonVictorious = None
-        pglBean.moveVictorious = None
-        pglBean.pokemonDefeated = None
-        pglBean.moveDefeated = None
+        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="battle-report-pokemon-detail"]/div[2]/div[2]/div[1]/ul/li[2]/a/span', 5)
+        time.sleep(0.1)
+        if ScrapePGL.checkIfDataExists(driver, '//*[@id="pokemon-detail-winning"]/div[1]'):
+            pglBean.pokemonVictorious = ScrapePGL.scrapePokemonVictorious(driver)
+            pglBean.moveVictorious = ScrapePGL.scrapeMoveVictorious(driver)
+        # click to Pokemon Defeated Tab
+        util.SeleniumUtil.clickElementByXpath(driver, '//*[@id="battle-report-pokemon-detail"]/div[2]/div[2]/div[1]/ul/li[3]/a/span', 5)
+        time.sleep(0.1)
+        if ScrapePGL.checkIfDataExists(driver, '//*[@id="pokemon-detail-losing"]/div[1]'):
+            pglBean.pokemonDefeated = ScrapePGL.scrapePokemonDefeated(driver)
+            pglBean.moveDefeated = ScrapePGL.scrapeMoveDefeated(driver)
         return pglBean
 
     def scrapePglName(driver):
-        element = util.(driver, '//*[@id="pokemon-detail-common"]/div[3]', 5)
+        element = util.SeleniumUtil.getElementByXpath(driver, '//*[@id="pokemon-detail-common"]/div[3]', 5)
         return element.text
     
     def scrapePglId(driver):
-        element = util.SeleniumUtil.getElementByXpath(driver, "(//img[contains(@src,'https://n-3ds-pgl-contents.pokemon-gl.com/share/images/spacer.png')])[51]", 5)
+        element = util.SeleniumUtil.getElementByXpath(driver, '//*[@id="pokemon-detail-common"]/div[1]/img', 5)
         style = element.get_attribute("style")
         pglId = style.split("pokemon/300/")[-1].split(".png")[0]
         return pglId
@@ -143,3 +151,57 @@ class ScrapePGL():
                 moveList[2] = elements[i].text
                 answer.append(moveList)
         return answer
+    
+    def scrapeMoveVictorious(driver):
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-winning"]/div[1]/div/table/tbody/tr/td', 5)
+        answer = []
+        for i in range(len(elements)):
+            if i % 3 == 0:
+                moveList = [None, None, None]
+                moveList[0] = elements[i].text
+            elif i % 3 == 1:
+                moveList[1] = elements[i].text
+            elif i % 3 == 2:
+                moveList[2] = elements[i].text
+                answer.append(moveList)
+        return answer
+    
+    def scrapePokemonVictorious(driver):
+        answer = []
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-winning"]/div[2]/ol/li/div/img', 5)
+        for i in range(len(elements)):
+            style = elements[i].get_attribute("style")
+            pglId = style.split("pokemon/44/")[-1].split(".png")[0]
+            pokemonWith = [i + 1, pglId]
+            answer.append(pokemonWith)
+        return answer
+    
+    def scrapeMoveDefeated(driver):
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-losing"]/div[1]/div/table/tbody/tr/td', 5)
+        answer = []
+        for i in range(len(elements)):
+            if i % 3 == 0:
+                moveList = [None, None, None]
+                moveList[0] = elements[i].text
+            elif i % 3 == 1:
+                moveList[1] = elements[i].text
+            elif i % 3 == 2:
+                moveList[2] = elements[i].text
+                answer.append(moveList)
+        return answer
+    
+    def scrapePokemonDefeated(driver):
+        answer = []
+        elements = util.SeleniumUtil.getElementsByXpath(driver, '//*[@id="pokemon-detail-losing"]/div[2]/ol/li/div/img', 5)
+        for i in range(len(elements)):
+            style = elements[i].get_attribute("style")
+            pglId = style.split("pokemon/44/")[-1].split(".png")[0]
+            pokemonWith = [i + 1, pglId]
+            answer.append(pokemonWith)
+        return answer
+    
+class LinkPglDataToYakkun():
+    
+    def link(pglBean):
+        return
+        

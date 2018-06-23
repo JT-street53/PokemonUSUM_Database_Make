@@ -70,16 +70,20 @@ class SeleniumUtil:
         wait = WebDriverWait(driver, waitingTime)
         try:
             element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+            time.sleep(0.1)
             element.click()
+            time.sleep(0.1)
         except:
             print("[ util.py ] : error occured at clicking element from xpath")
-            return
+        return
     
     def clickElementByLinkText(driver, word, waitingTime):
         wait = WebDriverWait(driver, waitingTime)
         try:
             element = wait.until(EC.presence_of_element_located((By.LINK_TEXT, word)))
+            time.sleep(0.1)
             element.click()
+            time.sleep(0.1)
         except:
             print("[ util.py ] : error occured at clicking element from link text")
             return
